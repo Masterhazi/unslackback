@@ -1,12 +1,13 @@
-
 from pathlib import Path
 import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'dev-secret-key-change-me'
-DEBUG = True
-ALLOWED_HOSTS = []
+SECRET_KEY = os.getenv("SECRET_KEY", "fallback-key")
+
+DEBUG = False
+
+ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -21,8 +22,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -51,6 +52,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'eisenhower_project.wsgi.application'
 
+# SQLite for now (OK for testing on Railway)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
